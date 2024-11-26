@@ -1,0 +1,27 @@
+<div class="container-fluid p-3">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Marca</th>
+          <th>Modelo</th>
+          <th>Tamanho</th>
+          <th>Cor</th>
+        </tr>
+      </thead>
+        {{#each items}}
+            <tbody onclick="window.location.href='/details/{{id}}'">
+                <tr>
+                <td> {{ marca }} </td>
+                <td> {{ modelo }}</td>
+                <td>{{ tamanho }}</td>
+                <td>{{ cor }}</td>
+                
+                </tr>
+            </tbody>
+        {{/each}}
+    </table>
+    <button class="btn btn-primary fab" onclick="window.location.href='/create'"> <ion-icon name="add-outline"></ion-icon> </button>
+  </div>
+
+
+    

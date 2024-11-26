@@ -1,0 +1,73 @@
+<div class="container p-3">
+
+    <div id="login-form">
+
+      <h2>LOGIN</h2>
+
+      <form action="/login" method="post">
+        <div class="mb-3">
+          <input class="form-control" type="email" name="email" placeholder="E-mail" required>
+        </div>
+        <div class="mb-3">
+        <input class="form-control" type="password" name="password" placeholder="Senha" required>
+        </div>
+        <button class="btn btn-primary" type="submit">Entrar</button>
+      </form>
+
+      <span> Não possui conta? <a href="/register"> <strong> Cadastre-se </strong> </a> </span>
+
+    </div>
+
+</div>
+
+
+<script type="module">
+
+  window.addEventListener("DOMContentLoaded", () => {
+      const firebaseConfig = {
+        apiKey: "AIzaSyA3MYGTs81C27LXnJ6u1yYOtKmFHLOJyLc",
+        authDomain: "webmobile-9eddd.firebaseapp.com",
+        projectId: "webmobile-9eddd",
+        storageBucket: "webmobile-9eddd.firebasestorage.app",
+        messagingSenderId: "1075572587268",
+        appId: "1:1075572587268:web:bc4c08bf8a657761de2e51"
+      };
+
+      firebase.initializeApp(firebaseConfig)
+
+      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE)
+
+      document
+      .getElementById("login-form")
+      .addEventListener("submit", (event) =>{
+        event.preventDefault();
+        const login = event.target.email.value;
+        const password = event.target.password.value;
+
+        firebase
+        .auth()
+        .signInWithEmailAndPassword(login,password)
+        .then(({user}) => {
+
+          return user.getIdToken().then((idToken) => { 
+            console.log(idToken)
+            return fetch("/login", {
+              method: "POST",
+              headers: {"Content-Type": "application/json"},
+              body: JSON.stringify({ idToken })
+            })
+          })
+
+        })
+        .then(() =>{
+          window.location.assign("/")
+        })
+        .catch((error) => {
+          console.error(error.message);
+        });
+
+      })
+
+  })
+
+</script>
